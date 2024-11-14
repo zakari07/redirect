@@ -3,8 +3,8 @@
 <head>
     <title>Redirecting...</title>
     <meta charset="UTF-8">
-    <!-- Immediate Meta Refresh -->
-    <meta http-equiv="refresh" content="0;url=https://getallmylinks.com/camelialoly">
+    <!-- Meta Refresh as a fallback -->
+    <meta http-equiv="refresh" content="3;url=https://getallmylinks.com/camelialoly">
     <script type="text/javascript">
     (function() {
         var targetUrl = "https://getallmylinks.com/camelialoly";
@@ -32,13 +32,16 @@
             }
             // For iOS devices
             else if (isiOS()) {
-                // Use custom scheme to open in Safari
-                var safariUrl = 'x-web-search://' + targetUrl;
-                window.location.href = safariUrl;
+                // Use a universal link to attempt opening in Safari
+                window.location.href = targetUrl;
 
-                // Fallback to normal redirect after a delay
+                // Fallback to opening a new window after a delay
                 setTimeout(function() {
-                    window.location.href = targetUrl;
+                    var a = document.createElement('a');
+                    a.href = targetUrl;
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
                 }, 2000);
             }
             else {
