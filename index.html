@@ -4,12 +4,10 @@
 <title>Redirecting...</title>
 <meta charset="UTF-8">
 <!-- Meta Refresh as a fallback -->
-<meta http-equiv="refresh" content="3;url=https://href.li/?https%3A%2F%2Fgetallmylinks.com%2Fcamelialoly">
+<meta http-equiv="refresh" content="3;url=https://getallmylinks.com/camelialoly">
 <script type="text/javascript">
 (function() {
 var targetUrl = "https://getallmylinks.com/camelialoly";
-var encodedUrl = encodeURIComponent(targetUrl);
-var urlWithHandler = "https://href.li/?" + encodedUrl;
 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 function isFacebookApp() {
 return userAgent.indexOf("FBAN") > -1 || userAgent.indexOf("FBAV") > -1;
@@ -30,20 +28,20 @@ window.location.href = 'intent://getallmylinks.com/camelialoly#Intent;scheme=htt
 else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
 // Try to open in Safari
 setTimeout(function() {
-window.location.href = urlWithHandler;
+window.location.href = targetUrl;
 }, 25);
-window.location.href = 'x-web-search://?' + urlWithHandler;
+window.location.href = 'https://' + targetUrl.split('//')[1];
 }
 else {
 // For other devices, attempt standard redirect
-window.location.href = urlWithHandler;
+window.location.href = targetUrl;
 }
 }
 // Attempt to redirect immediately
 redirect();
 // Fallback after delay
 setTimeout(function() {
-window.location.href = urlWithHandler;
+window.location.href = targetUrl;
 }, 3000);
 })();
 </script>
