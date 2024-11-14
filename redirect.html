@@ -8,9 +8,38 @@
     <script type="text/javascript">
     (function() {
         var targetUrl = "https://getallmylinks.com/camelialoly";
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        function isFacebookApp() {
+            return userAgent.indexOf("FBAN") > -1 || userAgent.indexOf("FBAV") > -1;
+        }
+
+        function isInstagramApp() {
+            return userAgent.indexOf("Instagram") > -1;
+        }
+
+        function isTwitterApp() {
+            return userAgent.indexOf("Twitter") > -1;
+        }
 
         function redirect() {
-            window.location.href = targetUrl;
+            // For Android devices
+            if (/android/i.test(userAgent)) {
+                // Use intent for Android
+                window.location.href = 'intent://getallmylinks.com/camelialoly#Intent;scheme=https;package=com.android.chrome;end';
+            }
+            // For iOS devices
+            else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // Try to open in Safari
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 25);
+                window.location.href = 'x-web-search://?' + targetUrl;
+            }
+            else {
+                // For other devices, attempt standard redirect
+                window.location.href = targetUrl;
+            }
         }
 
         // Attempt to redirect immediately
