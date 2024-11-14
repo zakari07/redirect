@@ -1,52 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Redirecting...</title>
-<meta charset="UTF-8">
-<!-- Meta Refresh as a fallback -->
-<meta http-equiv="refresh" content="3;url=https://getallmylinks.com/camelialoly">
-<script type="text/javascript">
-(function() {
-var targetUrl = "https://getallmylinks.com/camelialoly";
-var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-function isFacebookApp() {
-return userAgent.indexOf("FBAN") > -1 || userAgent.indexOf("FBAV") > -1;
-}
-function isInstagramApp() {
-return userAgent.indexOf("Instagram") > -1;
-}
-function isTwitterApp() {
-return userAgent.indexOf("Twitter") > -1;
-}
-function redirect() {
-// For Android devices
-if (/android/i.test(userAgent)) {
-// Use intent for Android
-window.location.href = 'intent://getallmylinks.com/camelialoly#Intent;scheme=https;package=com.android.chrome;end';
-}
-// For iOS devices
-else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-// Try to open in Safari
-window.location = targetUrl;
-setTimeout(function() {
-window.location = "https://apps.apple.com/app/id284815942";
-}, 2000);
-}
-else {
-// For other devices, attempt standard redirect
-window.location.href = targetUrl;
-}
-}
-// Attempt to redirect immediately
-redirect();
-// Fallback after delay
-setTimeout(function() {
-window.location.href = targetUrl;
-}, 3000);
-})();
-</script>
+    <title>Redirecting...</title>
+    <meta charset="UTF-8">
+    <!-- Meta Refresh as a fallback -->
+    <meta http-equiv="refresh" content="3;url=https://getallmylinks.com/camelialoly">
+    <script type="text/javascript">
+    (function() {
+        var targetUrl = "https://getallmylinks.com/camelialoly";
+
+        function redirect() {
+            window.location.href = targetUrl;
+        }
+
+        // Attempt to redirect immediately
+        redirect();
+
+        // Fallback after delay
+        setTimeout(function() {
+            window.location.href = targetUrl;
+        }, 3000);
+    })();
+    </script>
 </head>
 <body>
-<!-- The body can remain empty since we're redirecting immediately -->
+    <!-- The body can remain empty since we're redirecting immediately -->
 </body>
 </html>
