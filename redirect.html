@@ -3,35 +3,43 @@
 <head>
     <title>Redirecting...</title>
     <meta charset="UTF-8">
-    <!-- Meta Refresh as a fallback -->
-    <meta http-equiv="refresh" content="3;url=https://getallmylinks.com/camelialoly">
+    <!-- Immediate Meta Refresh -->
+    <meta http-equiv="refresh" content="0;url=https://getallmylinks.com/camelialoly">
     <script type="text/javascript">
     (function() {
         var targetUrl = "https://getallmylinks.com/camelialoly";
         var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-        function isFacebookApp() {
-            return userAgent.indexOf("FBAN") > -1 || userAgent.indexOf("FBAV") > -1;
+        function isAndroid() {
+            return /android/i.test(userAgent);
         }
 
-        function isInstagramApp() {
-            return userAgent.indexOf("Instagram") > -1;
-        }
-
-        function isTwitterApp() {
-            return userAgent.indexOf("Twitter") > -1;
+        function isiOS() {
+            return /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
         }
 
         function redirect() {
             // For Android devices
-            if (/android/i.test(userAgent)) {
-                // Attempt to open the URL in the default browser without using intent
-                window.location.href = targetUrl;
+            if (isAndroid()) {
+                // Use intent for Android to open in default browser
+                var intentUrl = 'intent://' + targetUrl.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+                window.location.href = intentUrl;
+
+                // Fallback to normal redirect after a delay
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 2000);
             }
             // For iOS devices
-            else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                // Attempt to open the URL in the default browser
-                window.location.href = targetUrl;
+            else if (isiOS()) {
+                // Use custom scheme to open in Safari
+                var safariUrl = 'x-web-search://' + targetUrl;
+                window.location.href = safariUrl;
+
+                // Fallback to normal redirect after a delay
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 2000);
             }
             else {
                 // For other devices, attempt standard redirect
@@ -41,15 +49,10 @@
 
         // Attempt to redirect immediately
         redirect();
-
-        // Fallback after delay
-        setTimeout(function() {
-            window.location.href = targetUrl;
-        }, 3000);
     })();
     </script>
 </head>
 <body>
-    <!-- The body can remain empty since we're redirecting immediately -->
+    <!-- Empty body since we're redirecting immediately -->
 </body>
 </html>
