@@ -1,62 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Redirecting...</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to Camelia Loly</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #redirect-button { display: none; margin-top: 20px; padding: 10px 20px; font-size: 16px; }
-    </style>
-</head>
-<body>
-    <h1>Redirecting to Camelia Loly</h1>
-    <p>If not redirected, please tap the button below:</p>
-    <button id="redirect-button">Open in Browser</button>
-
+    <!-- Meta Refresh as a fallback -->
+    <meta http-equiv="refresh" content="3;url=https://getallmylinks.com/camelialoly">
     <script type="text/javascript">
     (function() {
         var targetUrl = "https://getallmylinks.com/camelialoly";
-        var redirectButton = document.getElementById('redirect-button');
-        
-        function isInApp() {
-            var ua = navigator.userAgent || navigator.vendor || window.opera;
-            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        function isFacebookApp() {
+            return userAgent.indexOf("FBAN") > -1 || userAgent.indexOf("FBAV") > -1;
         }
 
-        function isiOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        function isInstagramApp() {
+            return userAgent.indexOf("Instagram") > -1;
         }
 
-        function attemptRedirect() {
-            if (isiOS()) {
-                window.open(targetUrl, '_system');
-            } else {
-                window.open(targetUrl, '_blank');
+        function isTwitterApp() {
+            return userAgent.indexOf("Twitter") > -1;
+        }
+
+        function redirect() {
+            // For Android devices
+            if (/android/i.test(userAgent)) {
+                // Use intent for Android
+                window.location.href = 'intent://getallmylinks.com/camelialoly#Intent;scheme=https;package=com.android.chrome;end';
             }
-            setTimeout(function() {
+            // For iOS devices
+            else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // Try to open in Safari
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 25);
+                window.location.href = 'x-web-search://?' + targetUrl;
+            }
+            else {
+                // For other devices, attempt standard redirect
                 window.location.href = targetUrl;
-            }, 500);
+            }
         }
 
-        if (isInApp()) {
-            redirectButton.style.display = 'inline-block';
-            redirectButton.onclick = attemptRedirect;
-        } else {
-            attemptRedirect();
-        }
+        // Attempt to redirect immediately
+        redirect();
 
-        // Universal app link attempt
-        var iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = targetUrl;
-        document.body.appendChild(iframe);
-
-        // Fallback
+        // Fallback after delay
         setTimeout(function() {
             window.location.href = targetUrl;
-        }, 2000);
+        }, 3000);
     })();
     </script>
+</head>
+<body>
+    <!-- The body can remain empty since we're redirecting immediately -->
 </body>
 </html>
