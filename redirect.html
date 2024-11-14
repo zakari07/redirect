@@ -4,21 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting to Camelia Loly</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #redirect-button { display: none; }
+    </style>
 </head>
 <body>
+    <h1>Redirecting to Camelia Loly</h1>
+    <p>If you're not redirected, please tap the button below:</p>
+    <button id="redirect-button">Open Camelia Loly</button>
+    
     <script type="text/javascript">
-        (function() {
-            var url = "https://getallmylinks.com/camelialoly";
-            var link = document.createElement('a');
-            link.setAttribute('href', url);
-            link.setAttribute('target', '_system');
-            link.setAttribute('rel', 'noopener noreferrer');
-            link.click();
+    (function() {
+        var targetUrl = "https://getallmylinks.com/camelialoly";
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        
+        function attemptRedirect() {
+            var iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = targetUrl;
+            document.body.appendChild(iframe);
+            
             setTimeout(function() {
-                window.location.href = url;
-            }, 100);
-        })();
+                if (!document.webkitHidden) {
+                    window.location = targetUrl;
+                }
+            }, 2500);
+        }
+
+        function isInstagram() {
+            return userAgent.indexOf('Instagram') > -1;
+        }
+
+        if (isInstagram()) {
+            document.getElementById('redirect-button').style.display = 'inline-block';
+            document.getElementById('redirect-button').onclick = function() {
+                window.open(targetUrl, '_system');
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 500);
+            };
+        } else {
+            attemptRedirect();
+        }
+
+        // Fallback
+        setTimeout(function() {
+            window.location.href = targetUrl;
+        }, 3000);
+    })();
     </script>
-    <p>If you are not redirected automatically, please <a href="https://getallmylinks.com/camelialoly" target="_blank" rel="noopener noreferrer">click here</a>.</p>
 </body>
 </html>
