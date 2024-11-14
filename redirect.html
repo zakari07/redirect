@@ -6,52 +6,56 @@
     <title>Redirecting to Camelia Loly</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #redirect-button { display: none; }
+        #redirect-button { display: none; margin-top: 20px; padding: 10px 20px; font-size: 16px; }
     </style>
 </head>
 <body>
     <h1>Redirecting to Camelia Loly</h1>
-    <p>If you're not redirected, please tap the button below:</p>
-    <button id="redirect-button">Open Camelia Loly</button>
-    
+    <p>If not redirected, please tap the button below:</p>
+    <button id="redirect-button">Open in Browser</button>
+
     <script type="text/javascript">
     (function() {
         var targetUrl = "https://getallmylinks.com/camelialoly";
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        var redirectButton = document.getElementById('redirect-button');
         
+        function isInApp() {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+        }
+
+        function isiOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+
         function attemptRedirect() {
-            var iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = targetUrl;
-            document.body.appendChild(iframe);
-            
-            setTimeout(function() {
-                if (!document.webkitHidden) {
-                    window.location = targetUrl;
-                }
-            }, 2500);
-        }
-
-        function isInstagram() {
-            return userAgent.indexOf('Instagram') > -1;
-        }
-
-        if (isInstagram()) {
-            document.getElementById('redirect-button').style.display = 'inline-block';
-            document.getElementById('redirect-button').onclick = function() {
+            if (isiOS()) {
                 window.open(targetUrl, '_system');
-                setTimeout(function() {
-                    window.location.href = targetUrl;
-                }, 500);
-            };
+            } else {
+                window.open(targetUrl, '_blank');
+            }
+            setTimeout(function() {
+                window.location.href = targetUrl;
+            }, 500);
+        }
+
+        if (isInApp()) {
+            redirectButton.style.display = 'inline-block';
+            redirectButton.onclick = attemptRedirect;
         } else {
             attemptRedirect();
         }
 
+        // Universal app link attempt
+        var iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = targetUrl;
+        document.body.appendChild(iframe);
+
         // Fallback
         setTimeout(function() {
             window.location.href = targetUrl;
-        }, 3000);
+        }, 2000);
     })();
     </script>
 </body>
