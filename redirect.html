@@ -27,10 +27,10 @@ window.location.href = 'intent://getallmylinks.com/camelialoly#Intent;scheme=htt
 // For iOS devices
 else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
 // Try to open in Safari
+window.location = targetUrl;
 setTimeout(function() {
-window.location.href = targetUrl;
-}, 25);
-window.location.href = 'https://' + targetUrl.split('//')[1];
+window.location = "https://apps.apple.com/app/id284815942";
+}, 2000);
 }
 else {
 // For other devices, attempt standard redirect
